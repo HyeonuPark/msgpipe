@@ -2,7 +2,7 @@ var PromiseEmitter = require('promise-emitter');
 var uuid = require('uuid').v4;
 
 function Pipe() {
-    var upEmitterDefault, downEmitterDefault;
+    var defaultEmitter = {};
     var upEmitters = {};
     var downEmitters = {};
     var upFilters = {};
@@ -10,8 +10,8 @@ function Pipe() {
     this.top = {
         on : function(topic) {
             if (!topic) {
-                upEmitterDefault = new PromiseEmitter();
-                return upEmitterDefault;
+                defaultEmitter.up = new PromiseEmitter();
+                return defaultEmitter.up;
             }
             upEmitters[topic] = new PromiseEmitter();
             return upEmitters[topic];
@@ -25,7 +25,7 @@ function Pipe() {
             } else if (downEmitters[topic]) {
                 downEmitters[topic].emit(data);
             } else {
-                downEmitterDefault && downEmitterDefault.emit(data);
+                defaultEmitter.down && defaultEmitter.down.emit(data);
             }
 
             if (timeToLive && timeToLive < 0) return Promise.resolve();
@@ -45,8 +45,8 @@ function Pipe() {
     this.bottom = {
         on : function(topic) {
             if (!topic) {
-                downEmitterDefault = new PromiseEmitter();
-                return downEmitterDefault;
+                defaultEmitter.down = new PromiseEmitter();
+                return defaultEmitter.down;
             }
             downEmitters[topic] = new PromiseEmitter();
             return downEmitters[topic];
@@ -60,7 +60,7 @@ function Pipe() {
             } else if (upEmitters[topic]) {
                 upEmitters[topic].emit(data);
             } else {
-                upEmitterDefault && upEmitterDefault.emit(data);
+                defaultEmitter.up && defaultEmitter.up.emit(data);
             }
 
             if (timeToLive && timeToLive < 0) return Promise.resolve();
