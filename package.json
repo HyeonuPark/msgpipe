@@ -1,0 +1,23 @@
+{
+  "name": "msgpipe",
+  "version": "1.0.0",
+  "description": "bi-directional message pipe",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "node test/main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HyeonuPark/msgpipe.git"
+  },
+  "keywords": [
+    "message",
+    "pipe"
+  ],
+  "author": "HyeonuPark",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HyeonuPark/msgpipe/issues"
+  },
+  "homepage": "https://github.com/HyeonuPark/msgpipe#readme"
+}
