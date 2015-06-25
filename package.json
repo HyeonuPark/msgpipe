@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/HyeonuPark/msgpipe/issues"
   },
-  "homepage": "https://github.com/HyeonuPark/msgpipe#readme"
+  "homepage": "https://github.com/HyeonuPark/msgpipe#readme",
+  "dependencies": {
+    "promise-emitter": "^1.0.1"
+  }
 }
