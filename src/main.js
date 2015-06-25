@@ -5,8 +5,8 @@ function Pipe() {
     var upEmitterDefault, downEmitterDefault;
     var upEmitters = {};
     var downEmitters = {};
-    var upPromises = {};
-    var downPromises = {};
+    var upFilters = {};
+    var downFilters = {};
     this.top = {
         on : function(topic) {
             if (!topic) {
@@ -19,9 +19,9 @@ function Pipe() {
         send : function(topic, data, prevEvent, timeToLive) {
             data._topic = topic;
             data._context = (prevEvent && prevEvent._context) || uuid();
-            if (downPromises[data._context]) {
-                downPromises[data._context](data);
-                delete downPromises[data._context];
+            if (downFilters[data._context]) {
+                downFilters[data._context](data);
+                delete downFilters[data._context];
             } else if (downEmitters[topic]) {
                 downEmitters[topic].emit(data);
             } else {
@@ -32,10 +32,10 @@ function Pipe() {
 
             return new Promise(function(res, rej) {
                 timeToLive = timeToLive || Pipe.defaultTimeToLive;
-                upPromises[data._context] = res;
+                upFilters[data._context] = res;
                 setTimeout(function() {
-                    if (upPromises[data._context]) {
-                        delete upPromises[data._context];
+                    if (upFilters[data._context]) {
+                        delete upFilters[data._context];
                         rej(new Error('Response time out'));
                     }
                 }, timeToLive);
@@ -54,9 +54,9 @@ function Pipe() {
         send : function(topic, data, prevEvent, timeToLive) {
             data._topic = topic;
             data._context = (prevEvent && prevEvent._context) || uuid();
-            if (upPromises[data._context]) {
-                upPromises[data._context](data);
-                delete upPromises[data._context];
+            if (upFilters[data._context]) {
+                upFilters[data._context](data);
+                delete upFilters[data._context];
             } else if (upEmitters[topic]) {
                 upEmitters[topic].emit(data);
             } else {
@@ -67,10 +67,10 @@ function Pipe() {
 
             return new Promise(function(res, rej) {
                 timeToLive = timeToLive || Pipe.defaultTimeToLive;
-                downPromises[data._context] = res;
+                downFilters[data._context] = res;
                 setTimeout(function() {
-                    if (downPromises[data._context]) {
-                        delete downPromises[data._context];
+                    if (downFilters[data._context]) {
+                        delete downFilters[data._context];
                         rej(new Error('Response time out'));
                     }
                 }, timeToLive);
