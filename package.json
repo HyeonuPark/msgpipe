@@ -1,6 +1,6 @@
 {
   "name": "msgpipe",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "bi-directional message pipe",
   "main": "src/main.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/HyeonuPark/msgpipe#readme",
   "dependencies": {
-    "promise-emitter": "^1.0.1"
+    "promise-emitter": "^1.0.1",
+    "uuid": "^2.0.1"
   }
 }
